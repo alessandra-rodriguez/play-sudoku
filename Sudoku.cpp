@@ -6,11 +6,14 @@
 
 #include "Sudoku.h"
 
+// Width of the horizontal line in the Sudoku board
 int const WIDTH = 40;
 
+// Constructor for Sudoku class
 Sudoku::Sudoku() {
 }
 
+// Function to print a horizontal line in the Sudoku board
 void Sudoku::printLine(ostream& os) const {
     for (int i = 0; i < WIDTH; i++) {
         os << "-";
@@ -18,6 +21,7 @@ void Sudoku::printLine(ostream& os) const {
     os << endl;
 }
 
+// Function to print the Sudoku board
 void Sudoku::print(ostream& os) const {
     printLine(os);
     for (int r = 0; r < SIZE; r++) {
@@ -43,6 +47,7 @@ void Sudoku::print(ostream& os) const {
     os << endl;
 }
 
+// Function to get user input for the number of numbers to disappear
 int Sudoku::getUserInput() {
     int input;
     
@@ -57,12 +62,14 @@ int Sudoku::getUserInput() {
     return input;
 }
 
+// Function to print the initial menu
 void Sudoku::printMenu(ostream&) {
     cout << "Hello, welcome to Alessandra's sudoku!" << endl << endl;
     cout << "How many numbers would you like to disapear?" << endl;
     cout << "*You must choose a number between 6 through 60*" << endl;
 }
 
+// Function to remove numbers from the Sudoku board based on user input
 void Sudoku::removeNums(int num) {
     int r, c;
     bool onList;
@@ -91,6 +98,7 @@ void Sudoku::removeNums(int num) {
     
 }
 
+// Function to initialize the Sudoku game
 void Sudoku::init() {
     int a;
     printMenu(cout);
@@ -98,6 +106,7 @@ void Sudoku::init() {
     removeNums(a);
 }
 
+// Function to check if a cell is empty
 bool Sudoku::empty(int r, int c) const{
     bool ifEmpty = true;
     
@@ -108,6 +117,7 @@ bool Sudoku::empty(int r, int c) const{
     return ifEmpty;
 }
 
+// Function to update the Sudoku matrix based on user input
 void Sudoku::updateMatrix() {
     int r, c, g;
     
@@ -132,6 +142,7 @@ void Sudoku::updateMatrix() {
     
 }
 
+// Function to check if the Sudoku board is complete
 bool Sudoku::isComplete() {
     bool done = true;
     
@@ -146,6 +157,7 @@ bool Sudoku::isComplete() {
     return done;
 }
 
+// Function to check the sum of a row after adding a guess
 bool Sudoku::rowSum(int r, int g) const{
     bool ifRow = true;
     int sum = 0;
@@ -156,6 +168,7 @@ bool Sudoku::rowSum(int r, int g) const{
     
     sum += g;
     
+    // Check if the sum exceeds 45 (1+2+3+4+5+6+7+8+9)
     if (sum > 45) {
         ifRow = false;
     }
@@ -163,6 +176,7 @@ bool Sudoku::rowSum(int r, int g) const{
     return ifRow;
 }
 
+// Function to check the sum of a column after adding a guess
 bool Sudoku::colSum(int c, int g) const{
     bool ifCol = true;
     int sum = 0;
@@ -173,6 +187,7 @@ bool Sudoku::colSum(int c, int g) const{
     
     sum += g;
     
+    // Check if the sum exceeds 45 (1+2+3+4+5+6+7+8+9)
     if (sum > 45) {
         ifCol = false;
     }
@@ -180,6 +195,7 @@ bool Sudoku::colSum(int c, int g) const{
     return ifCol;
 }
 
+// Function to check the sum of a 3x3 square after adding a guess
 bool Sudoku::sqSum (int r, int c, int g) const {
     bool ifSq = true;
     int row = r - (r % 3);
@@ -194,12 +210,15 @@ bool Sudoku::sqSum (int r, int c, int g) const {
     
     sum += g;
     
+    // Check if the sum exceeds 45 (1+2+3+4+5+6+7+8+9)
     if (sum > 45) {
         ifSq = false;
     }
     
     return ifSq;
 }
+
+// Function to check for duplicate numbers in a row after adding a guess
 
 bool Sudoku::rowDup (int r, int g) const {
     bool check = false;
@@ -213,6 +232,8 @@ bool Sudoku::rowDup (int r, int g) const {
     return check;
 }
 
+// Function to check for duplicate numbers in a column after adding a guess
+
 bool Sudoku::colDup (int c, int g) const {
     bool check = false;
     
@@ -225,6 +246,7 @@ bool Sudoku::colDup (int c, int g) const {
     return check;
 }
 
+// Function to check for duplicate numbers in a 3x3 square after adding a guess
 bool Sudoku::sqDup (int r, int c, int g) const {
     bool check = false;
     int row = r - (r % 3);
@@ -241,6 +263,7 @@ bool Sudoku::sqDup (int r, int c, int g) const {
     return check;
 }
 
+// Function to check if the guess meets all rules of the game
 bool Sudoku::isSafe (int r, int c, int g) const {
     bool safe = true;
     
@@ -251,6 +274,7 @@ bool Sudoku::isSafe (int r, int c, int g) const {
     return safe;
 }
 
+// Function to create the initial Sudoku board
 void Sudoku::createBoard() {
     srand(time(0));
     int puzzle = rand() % 4;
@@ -354,10 +378,13 @@ void Sudoku::createBoard() {
 }
 
 /*void Sudoku::createBoard() {
-    int num;
+    int numOptions[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    srand(time(0));
     
+    random_shuffle(arr, arr + SIZE);
     for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 3; c++) {
+            board[r][c] = num;
             do {
                 num = ((rand() % 9) + 1);
                 
